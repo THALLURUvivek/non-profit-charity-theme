@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My giving — Hearth Foundation</title>
+<meta name="description" content="Your Hearth Foundation giving history, receipts, monthly gift and the impact it funded.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0D3B2E">
+
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-dashboard="user">
+
+<a class="skip-link" href="#dash-main">Skip to content</a>
+
+<div class="dash">
+
+  <aside class="dash-side">
+    <a class="dash-side__brand" href="index.html">
+      <span class="brand-mark">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path fill="#F5B93F" d="M32 13c-1.6 6.4-5.8 9.3-9.4 12.6-3.5 3.2-5.6 6.5-5.6 10.4A15 15 0 0 0 32 51a15 15 0 0 0 15-15c0-3.9-2.1-7.2-5.6-10.4C37.8 22.3 33.6 19.4 32 13Z"/>
+          <path fill="#FBF7F1" opacity=".92" d="M32 25.5c-1 3.6-3.2 5.2-5.2 7.1-1.9 1.8-3 3.5-3 5.7A8.2 8.2 0 0 0 32 46.4a8.2 8.2 0 0 0 8.2-8.1c0-2.2-1.1-3.9-3-5.7-2-1.9-4.2-3.5-5.2-7.1Z"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-name" style="color:var(--white);">Hearth</span>
+        <span class="brand-tag" style="color:var(--mint);">Foundation</span>
+      </span>
+    </a>
+
+    <p><span class="dash-role"><i class="bi bi-heart-fill"></i> <span data-role-label>Donor</span></span></p>
+
+    <nav class="dash-nav" data-nav aria-label="Portal sections"></nav>
+
+    <div class="dash-me" data-me></div>
+  </aside>
+
+  <main class="dash-main" id="dash-main">
+
+    <header class="dash-top" id="overview">
+      <div>
+        <p class="eyebrow" style="margin-bottom:.4rem;">Your account</p>
+        <h1>Thank you, <span data-me-first>there</span></h1>
+        <p data-since>Here is everything your giving has done since you started.</p>
+      </div>
+      <div class="dash-top__actions">
+        <button class="btn btn--outline btn--sm" type="button" data-export="receipts"><i class="bi bi-receipt"></i> Download receipts</button>
+        <a class="btn btn--gold btn--sm" href="donate.html"><i class="bi bi-heart"></i> Give more</a>
+      </div>
+    </header>
+
+    <p class="demo-note">
+      <i class="bi bi-info-circle-fill"></i>
+      <span>This is a demo portal. Your gift history is illustrative data in <code>js/dashboard-data.js</code> — no card was charged and no real receipt exists.</span>
+    </p>
+
+    <div class="dash-grid dash-grid--4 mb-4" data-kpis></div>
+
+    <div class="dash-grid dash-grid--1-2 mb-4" id="gift">
+      <section class="panel">
+        <div class="panel__head">
+          <h2>Your monthly gift</h2>
+          <p>Cancel or change it any time</p>
+        </div>
+        <div class="gift-card-live" data-gift-card></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head">
+          <h2>Your giving, month by month</h2>
+          <p>Last 12 months</p>
+        </div>
+        <div class="chart-legend">
+          <span><i style="background:var(--leaf);"></i> Your gift</span>
+        </div>
+        <div class="bars" data-giving-bars role="img" aria-label="Bar chart of your giving across the last twelve months"></div>
+        <div class="bars__labels" data-giving-labels></div>
+        <p class="chart-note">Flat months are the point. Predictable funding is what lets a field team hire for four years instead of four weeks.</p>
+      </section>
+    </div>
+
+    <div class="dash-grid dash-grid--3 mb-4" id="impact">
+      <section class="panel">
+        <div class="panel__head">
+          <h2>What your money did</h2>
+          <p>Same multipliers we publish for every donor</p>
+        </div>
+        <div class="impact-tiles" data-impact></div>
+        <p class="kpi__note" style="margin-top:1.25rem;">
+          Roughly 84 cents of every dollar reaches a programme. <a class="link-underline" href="index.html#transparency">See the split</a>.
+        </p>
+      </section>
+
+      <section class="panel" id="tax">
+        <div class="panel__head">
+          <h2>Tax summary</h2>
+          <p>Hearth Foundation · EIN 47-0928471</p>
+        </div>
+        <div data-tax></div>
+      </section>
+
+      <section class="panel" id="settings">
+        <div class="panel__head">
+          <h2>Preferences</h2>
+          <p>Change any of these</p>
+        </div>
+        <form data-settings-form novalidate>
+
+          <div class="field mb-3">
+            <label for="prefEmail">Receipts go to</label>
+            <input class="form-control" type="email" id="prefEmail" name="email" autocomplete="email">
+          </div>
+
+          <div class="field mb-3">
+            <label for="prefCountry">Country for tax purposes</label>
+            <select class="form-select" id="prefCountry" name="country">
+              <option>United Kingdom</option>
+              <option>United States</option>
+              <option>Canada</option>
+              <option>Australia</option>
+              <option>Germany</option>
+              <option>Kenya</option>
+              <option>India</option>
+              <option>Brazil</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-row__text">
+              <b>Email receipt for every gift</b>
+              <span>Sent within a minute of a successful charge.</span>
+            </div>
+            <span class="switch">
+              <input type="checkbox" id="prefReceipts" name="receipts" aria-label="Email receipt for every gift">
+              <span class="switch__track"></span>
+            </span>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-row__text">
+              <b>Quarterly field update</b>
+              <span>Photos and numbers from the programmes you fund. Four emails a year, no more.</span>
+            </div>
+            <span class="switch">
+              <input type="checkbox" id="prefQuarterly" name="quarterlyUpdate" aria-label="Quarterly field update">
+              <span class="switch__track"></span>
+            </span>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-row__text">
+              <b>Occasional appeals</b>
+              <span>Usually twice a year, when a programme is genuinely short.</span>
+            </div>
+            <span class="switch">
+              <input type="checkbox" id="prefAppeals" name="appeals" aria-label="Occasional appeals">
+              <span class="switch__track"></span>
+            </span>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-row__text">
+              <b>List me as an anonymous donor</b>
+              <span>Your gift still counts in full. Only your name is withheld.</span>
+            </div>
+            <span class="switch">
+              <input type="checkbox" id="prefAnonymous" name="anonymous" aria-label="List me as an anonymous donor">
+              <span class="switch__track"></span>
+            </span>
+          </div>
+
+          <button class="btn btn--block mt-3" type="submit">
+            <span class="btn__label"><i class="bi bi-check2"></i> Save preferences</span>
+          </button>
+        </form>
+      </section>
+    </div>
+
+    <section class="panel" id="history">
+      <div class="panel__head">
+        <h2>Receipt history</h2>
+        <div class="chip-row">
+          <button class="chip is-active" type="button" data-history-filter="all" aria-pressed="true">All</button>
+          <button class="chip" type="button" data-history-filter="paid" aria-pressed="false">Paid</button>
+          <button class="chip" type="button" data-history-filter="refunded" aria-pressed="false">Refunded</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="dash-table">
+          <thead>
+            <tr>
+              <th scope="col">Reference</th>
+              <th scope="col">Date</th>
+              <th scope="col">Status</th>
+              <th scope="col" class="num">Amount</th>
+            </tr>
+          </thead>
+          <tbody data-history></tbody>
+        </table>
+      </div>
+      <p class="kpi__note" style="margin-top:1rem;">Receipts are PDF attachments on the charge email. A refund reverses the deduction — the February entry shows what that looks like.</p>
+    </section>
+
+    <div class="dash-foot">
+      <span>Signed in as <b data-me-email></b></span>
+      <span>Questions about a gift? <a class="link-underline" href="contact.html">Ask a person</a></span>
+    </div>
+
+  </main>
+</div>
+
+<div class="dash-toast" data-toast role="status" aria-live="polite"></div>
+
+<script src="js/dashboard-data.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

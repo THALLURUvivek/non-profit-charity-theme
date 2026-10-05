@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Staff console — Hearth Foundation</title>
+<meta name="description" content="Internal staff console for the Hearth Foundation: income, programme health, approval queue and audit figures.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0D3B2E">
+
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-dashboard="admin">
+
+<a class="skip-link" href="#dash-main">Skip to content</a>
+
+<div class="dash">
+
+  <aside class="dash-side">
+    <a class="dash-side__brand" href="index.html">
+      <span class="brand-mark">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path fill="#F5B93F" d="M32 13c-1.6 6.4-5.8 9.3-9.4 12.6-3.5 3.2-5.6 6.5-5.6 10.4A15 15 0 0 0 32 51a15 15 0 0 0 15-15c0-3.9-2.1-7.2-5.6-10.4C37.8 22.3 33.6 19.4 32 13Z"/>
+          <path fill="#FBF7F1" opacity=".92" d="M32 25.5c-1 3.6-3.2 5.2-5.2 7.1-1.9 1.8-3 3.5-3 5.7A8.2 8.2 0 0 0 32 46.4a8.2 8.2 0 0 0 8.2-8.1c0-2.2-1.1-3.9-3-5.7-2-1.9-4.2-3.5-5.2-7.1Z"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-name" style="color:var(--white);">Hearth</span>
+        <span class="brand-tag" style="color:var(--mint);">Foundation</span>
+      </span>
+    </a>
+
+    <p><span class="dash-role"><i class="bi bi-shield-lock"></i> <span data-role-label>Staff</span></span></p>
+
+    <nav class="dash-nav" data-nav aria-label="Console sections"></nav>
+
+    <div class="dash-me" data-me></div>
+  </aside>
+
+  <main class="dash-main" id="dash-main">
+
+    <header class="dash-top" id="overview">
+      <div>
+        <p class="eyebrow" style="margin-bottom:.4rem;">Reporting period</p>
+        <h1>Good morning, <span data-me-first>there</span></h1>
+        <p>Everything below is the same number the board sees, pulled from one place.</p>
+      </div>
+      <div class="dash-top__actions">
+        <a class="btn btn--outline btn--sm" href="#queue"><i class="bi bi-inbox"></i> Review queue</a>
+        <button class="btn btn--sm" type="button" data-export="gifts"><i class="bi bi-download"></i> Export CSV</button>
+      </div>
+    </header>
+
+    <p class="demo-note">
+      <i class="bi bi-info-circle-fill"></i>
+      <span>Internal view. Figures are illustrative demo data held in <code>js/dashboard-data.js</code> — swap that one object for an API response and nothing else changes. <a class="link-underline" href="index.html#transparency">What donors see published</a>.</span>
+    </p>
+
+    <div class="dash-grid dash-grid--4 mb-4" data-kpis></div>
+
+    <div class="dash-grid dash-grid--2-1 mb-4" id="income">
+      <section class="panel">
+        <div class="panel__head">
+          <h2>Income by month</h2>
+          <p>Recurring vs one-time, last 12 months</p>
+        </div>
+        <div class="chart-legend">
+          <span><i style="background:var(--leaf);"></i> Monthly gifts</span>
+          <span><i style="background:var(--gold);"></i> One-time gifts</span>
+        </div>
+        <div class="bars" data-income-bars role="img" aria-label="Stacked bar chart of monthly income across the last twelve months"></div>
+        <div class="bars__labels" data-income-labels></div>
+        <p class="chart-note">Hover a column for the exact split. Every figure ties back to the general ledger.</p>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head">
+          <h2>Where it went</h2>
+          <p>Allocation of spend</p>
+        </div>
+        <div class="dash-stack" data-allocation></div>
+      </section>
+    </div>
+
+    <div class="dash-grid dash-grid--2-1 mb-4" id="queue">
+      <section class="panel">
+        <div class="panel__head">
+          <h2>Waiting on a decision</h2>
+          <p>Nothing here auto-approves. That is the point of the queue.</p>
+        </div>
+        <div class="queue" data-queue></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head">
+          <h2>Flags we publish</h2>
+          <p>Programmes under target</p>
+        </div>
+        <ul class="office-card" style="padding:0;">
+          <li><i class="bi bi-exclamation-triangle-fill"></i><span><b>Climate resilience</b> scored 63/100 — seawall ownership unresolved since July.</span></li>
+          <li><i class="bi bi-exclamation-triangle-fill"></i><span><b>Education</b> scored 71/100 — 4 partner schools missed enrolment targets.</span></li>
+          <li><i class="bi bi-info-circle-fill"></i><span><b>34 projects</b> are written up as failures. All of them are still public.</span></li>
+        </ul>
+        <p class="kpi__note" style="margin-top:1rem;">A dashboard that only shows green numbers is a lie with a chart around it.</p>
+      </section>
+    </div>
+
+    <div class="dash-grid dash-grid--2 mb-4" id="gifts">
+      <section class="panel">
+        <div class="panel__head">
+          <h2>Recent gifts</h2>
+          <div class="chip-row">
+            <button class="chip is-active" type="button" data-gift-filter="all" aria-pressed="true">All</button>
+            <button class="chip" type="button" data-gift-filter="monthly" aria-pressed="false">Monthly</button>
+            <button class="chip" type="button" data-gift-filter="one-time" aria-pressed="false">One-time</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="dash-table">
+            <thead>
+              <tr>
+                <th scope="col">Donor</th>
+                <th scope="col">Type</th>
+                <th scope="col">Designation</th>
+                <th scope="col" class="num">Amount</th>
+              </tr>
+            </thead>
+            <tbody data-gifts></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel" id="programmes">
+        <div class="panel__head">
+          <h2>Programme health</h2>
+          <p>Delivery score out of 100</p>
+        </div>
+        <div class="table-wrap">
+          <table class="dash-table">
+            <thead>
+              <tr>
+                <th scope="col">Programme</th>
+                <th scope="col" class="num">Projects</th>
+                <th scope="col" class="num">Spend</th>
+                <th scope="col">Health</th>
+              </tr>
+            </thead>
+            <tbody data-programmes></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <section class="panel" id="audit">
+      <div class="panel__head">
+        <h2>Accountability</h2>
+        <p>The numbers we are legally required to keep</p>
+      </div>
+      <div data-audit></div>
+    </section>
+
+    <div class="dash-foot">
+      <span>Signed in as <b data-me-email></b> · <span data-period></span></span>
+      <span><span data-synced></span> · <a class="link-underline" href="index.html">hearthfoundation.org</a></span>
+    </div>
+
+  </main>
+</div>
+
+<div class="dash-toast" data-toast role="status" aria-live="polite"></div>
+
+<script src="js/dashboard-data.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

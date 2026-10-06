@@ -22,7 +22,18 @@
 
 <div class="dash">
 
-  <aside class="dash-side">
+  <header class="dash-bar">
+    <button class="dash-burger" type="button" data-nav-toggle aria-label="Open navigation" aria-controls="dash-side" aria-expanded="false">
+      <i class="bi bi-list"></i>
+    </button>
+    <a class="dash-bar__brand" href="index.html">
+      <img src="image/image.png" alt="">
+      <span>Hearth Foundation</span>
+    </a>
+  </header>
+
+  <aside class="dash-side" id="dash-side">
+    <button class="dash-side__close" type="button" data-nav-close aria-label="Close navigation"><i class="bi bi-x-lg"></i></button>
     <a class="dash-side__brand" href="index.html">
       <img src="image/image.png" alt="Hearth Foundation" style="height: 40px; width: auto;">
     </a>
@@ -207,11 +218,14 @@
     </div>
 
   </main>
+
+  <div class="dash-scrim" data-nav-scrim></div>
 </div>
 
 <div class="dash-toast" data-toast role="status" aria-live="polite"></div>
 
 <script src="js/dashboard-data.js"></script>
 <script src="js/dashboard.js"></script>
+<script src="js/selects.js"></script>
 </body>
 </html>

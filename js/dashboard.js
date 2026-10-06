@@ -389,6 +389,61 @@
 
   /* ---------------------------------------------------------------- 03 */
   /* shared shell pieces */
+
+  /* Every action control in the dashboard body (filters, exports, approvals,
+     gift actions, save) is a demo stub, so it all lands on the error page.
+     Scoped to .dash-main on purpose: the sidebar and the mobile drawer keep
+     working normally. Capture phase, so no other handler runs first. */
+  const ERROR_PAGE = '404.html';
+
+  function wireErrorRedirect() {
+    document.addEventListener('click', e => {
+      const el = e.target instanceof Element ? e.target : null;
+      if (!el) return;
+      const btn = el.closest('.dash-main button');
+      if (!btn) return;
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = ERROR_PAGE;
+    }, true);
+  }
+
+  /* mobile: the sidebar becomes an off-canvas drawer behind a burger */
+  function wireSidebar() {
+    const side = $('.dash-side');
+    const burger = $('[data-nav-toggle]');
+    if (!side || !burger) return;
+
+    const scrim = $('[data-nav-scrim]');
+
+    const setOpen = open => {
+      side.classList.toggle('is-open', open);
+      if (scrim) scrim.classList.toggle('is-visible', open);
+      document.body.classList.toggle('is-nav-open', open);
+      burger.setAttribute('aria-expanded', String(open));
+      burger.innerHTML = '<i class="bi bi-' + (open ? 'x-lg' : 'list') + '"></i>';
+      burger.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    };
+
+    burger.addEventListener('click', () => setOpen(!side.classList.contains('is-open')));
+    if (scrim) scrim.addEventListener('click', () => setOpen(false));
+    $$('[data-nav-close]').forEach(btn => btn.addEventListener('click', () => setOpen(false)));
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && side.classList.contains('is-open')) setOpen(false);
+    });
+
+    /* a nav link closes the drawer before the anchor jump, so the target
+       is not hidden behind it */
+    side.addEventListener('click', e => {
+      if (e.target.closest('a[href]')) setOpen(false);
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 1200 && side.classList.contains('is-open')) setOpen(false);
+    });
+  }
+
   function renderShell(account, roleLabel, navHtml) {
     document.body.classList.add('is-dashboard');
     /* no fixed header here, so the marketing offset would push anchor
@@ -424,6 +479,8 @@
     if (first) first.textContent = account.name.split(' ')[0];
 
     wireSignOut();
+    wireSidebar();
+    wireErrorRedirect();
   }
 
   const statusPill = status => {

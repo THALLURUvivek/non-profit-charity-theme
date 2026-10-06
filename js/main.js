@@ -325,31 +325,40 @@
 
   /* ---------------------------------------------------------------- 05 */
   function initReveals() {
-    if (!hasGSAP || !window.ScrollTrigger) return;
+    if (!hasGSAP) return;
+    if (!window.ScrollTrigger) {
+      /* prepHidden() already applied inline hides — undo them so nothing
+         stays blank when the ScrollTrigger build never arrives */
+      $$('[data-anim]').forEach(el => gsap.set(el, { clearProps: 'opacity,transform,clipPath' }));
+      $$('[data-stagger-item]').forEach(el => gsap.set(el, { clearProps: 'opacity,transform' }));
+      return;
+    }
 
     if (REDUCED) {
       $$('[data-anim], [data-stagger-item]').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
       return;
     }
 
-    const common = { once: true };
+    /* `once` must live in the scrollTrigger config — at tween level it is
+       ignored, so refresh() would re-hide sections already revealed */
+    const once = { once: true };
 
     /* single elements */
     $$('[data-anim]').forEach(el => {
       if (el.hasAttribute('data-anim-hero')) return;
-      const map = { up: 'y', fade: 'opacity', left: 'x', right: 'x', scale: 'scale' };
+      const map = { up: 'y', left: 'x', right: 'x', scale: 'scale' };
       const kind = el.dataset.anim;
       if (kind === 'clip') {
         gsap.to(el, {
-          clipPath: 'inset(0 0 0% 0)', duration: 1.2, ease: 'power4.out', ...common,
-          scrollTrigger: { trigger: el, start: 'top 88%' }
+          clipPath: 'inset(0 0 0% 0)', duration: 1.2, ease: 'power4.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', ...once }
         });
         return;
       }
-      const props = { opacity: 1, duration: .95, ease: EASE, ...common };
+      const props = { opacity: 1, duration: .95, ease: EASE };
       if (map[kind]) props[map[kind]] = 0;
       if (kind === 'scale') props.scale = 1;
-      gsap.to(el, { ...props, scrollTrigger: { trigger: el, start: 'top 90%' } });
+      gsap.to(el, { ...props, scrollTrigger: { trigger: el, start: 'top 90%', ...once } });
     });
 
     /* staggered groups */
@@ -357,8 +366,8 @@
       const items = group.querySelectorAll('[data-stagger-item]');
       if (!items.length) return;
       gsap.to(items, {
-        y: 0, opacity: 1, duration: .85, ease: EASE, stagger: .09, ...common,
-        scrollTrigger: { trigger: group, start: 'top 86%' }
+        y: 0, opacity: 1, duration: .85, ease: EASE, stagger: .09,
+        scrollTrigger: { trigger: group, start: 'top 86%', ...once }
       });
     });
 
@@ -370,8 +379,8 @@
       if (!lines.length) return;
       el.dataset.splitDone = '1';
       gsap.to(lines, {
-        yPercent: 0, duration: .95, ease: 'power4.out', stagger: .055, ...common,
-        scrollTrigger: { trigger: el, start: 'top 90%' }
+        yPercent: 0, duration: .95, ease: 'power4.out', stagger: .055,
+        scrollTrigger: { trigger: el, start: 'top 90%', ...once }
       });
     });
 
@@ -589,7 +598,8 @@
           snap: { snapTo: (v) => Math.round(v * 10) / 10, duration: .25, ease: 'power1.inOut' }
         },
         onUpdate: self => {
-          x = Math.abs(self.progress() * getMax());
+          const pr = self && typeof self.progress === 'function' ? self.progress() : 0;
+          x = Math.abs(pr * getMax());
           setBar(); setButtons();
         }
       });
@@ -864,27 +874,17 @@
 
   /* ---------------------------------------------------------------- 07c */
   /* social + placeholder links                                         */
-  /* Every footer social icon and every legal/utility link ships as href="#".
-     Rather than ship dead links we give each one a real destination and,
-     where the destination is genuinely not built yet, an honest toast.   */
+  /* Every footer social icon ships as href="#". Social profiles are not
+     published yet, so both the markup and this wiring send each icon to
+     the error page; the envelope keeps its newsletter destination.      */
+
+  const ERROR_PAGE = '404.html';
 
   const SOCIAL = {
-    'twitter-x': {
-      label: 'Hearth on X',
-      href: 'https://x.com/hearthfoundation'
-    },
-    instagram: {
-      label: 'Hearth on Instagram',
-      href: 'https://instagram.com/hearthfoundation'
-    },
-    linkedin: {
-      label: 'Hearth on LinkedIn',
-      href: 'https://linkedin.com/company/hearth-foundation'
-    },
-    youtube: {
-      label: 'Hearth on YouTube',
-      href: 'https://youtube.com/@hearthfoundation'
-    }
+    'twitter-x': { href: ERROR_PAGE },
+    instagram: { href: ERROR_PAGE },
+    linkedin: { href: ERROR_PAGE },
+    youtube: { href: ERROR_PAGE }
   };
 
   /* Resolve an icon to its network key from the bootstrap icon class. */
@@ -903,11 +903,11 @@
         a.setAttribute('href', 'index.html#newsletter');
         return;
       }
+      /* no profile pages yet — every social icon lands on the error page */
       const s = SOCIAL[net];
       a.setAttribute('href', s.href);
-      a.setAttribute('target', '_blank');
-      a.setAttribute('rel', 'noopener noreferrer');
-      a.setAttribute('aria-label', s.label + ' (opens in a new tab)');
+      a.removeAttribute('target');
+      a.removeAttribute('rel');
       a.dataset.socialNet = net;
     });
   }

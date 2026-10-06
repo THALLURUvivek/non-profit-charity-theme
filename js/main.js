@@ -261,7 +261,7 @@
     const tl = gsap.timeline({ defaults: { ease: EASE }, delay: .05 });
 
     tl.from('[data-hero-badge]', { y: 24, opacity: 0, duration: .7 })
-      .from('[data-hero-title] .word-inner', { yPercent: 118, duration: 1.05, stagger: .07, ease: 'power4.out' }, '-=.35')
+      .fromTo('[data-hero-title] .word-inner', { yPercent: 118 }, { yPercent: 0, duration: 1.05, stagger: .07, ease: 'power4.out' }, '-=.35')
       .from('[data-hero-lead]', { y: 26, opacity: 0, duration: .8 }, '-=.65')
       .from('[data-hero-actions] > *', { y: 22, opacity: 0, duration: .6, stagger: .1 }, '-=.5')
       .from('[data-hero-trust]', { y: 18, opacity: 0, duration: .6 }, '-=.4')

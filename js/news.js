@@ -345,31 +345,37 @@
   }
 
   /* ---------------------------------------------------------------- 05 */
-  /* Archive cards on news.html carry hand-written text: a read-time estimate,
-     an excerpt and a kicker. Rewrite all three from the data so an edit to an
-     article body cannot leave a stale number or a mismatched teaser sitting in
-     the archive. Safe on any page — it only touches cards declaring data-story,
-     and the static markup is already correct for anyone without JS. */
-  function syncArchiveCards() {
-    $$('[data-story]').forEach(card => {
-      const s = DATA.get(card.getAttribute('data-story'));
-      if (!s) return;
+  /* The archive grid on news.html ships empty — the cards are built here from
+     js/news-data.js so a story only has to be written once. Runs at parse
+     time, before main.js initialises, so the reveal, counter and filter
+     engines all see the finished card list. */
+  function archiveCardHtml(s) {
+    const cat = DATA.categories[s.category] || { label: s.category, cls: '' };
+    /* the hero is served at 1600w for the article page; the card only needs 700 */
+    const thumb = String(s.hero.src).replace(/([?&]w=)\d+/, '$1700');
 
-      const meta = $('.card-shell__meta', card);
-      if (meta) {
-        const last = meta.lastChild;
-        if (last && last.nodeType === 3) last.nodeValue = ' ' + s.readTime + ' min';
-      }
+    return '<article class="card-shell filter-item" data-category="' + esc(s.category) +
+        '" data-story="' + esc(s.slug) + '" data-anim="up">' +
+        '<div class="card-shell__media">' +
+          '<span class="card-shell__tag ' + cat.cls + '">' + esc(cat.label) + '</span>' +
+          '<img src="' + esc(thumb) + '" width="700" height="480" loading="lazy" decoding="async" alt="' + esc(s.hero.alt) + '">' +
+        '</div>' +
+        '<div class="card-shell__body">' +
+          '<p class="card-shell__meta"><i class="bi bi-calendar3"></i> ' + esc(s.date) + ' <span>·</span> ' + esc(s.readTime) + ' min</p>' +
+          '<h3>' + esc(s.title) + '</h3>' +
+          '<p>' + esc(s.excerpt || s.dek) + '</p>' +
+          '<div class="card-shell__foot">' +
+            '<span class="card-shell__price" style="font-size:1rem;"><i class="bi ' + esc(s.kickerIcon || 'bi-geo-alt') + '"></i> ' + esc(s.kicker) + '</span>' +
+            '<a class="arrow-btn" href="' + storyUrl(s) + '" aria-label="Read: ' + esc(s.title) + '"><i class="bi bi-arrow-up-right"></i></a>' +
+          '</div>' +
+        '</div>' +
+      '</article>';
+  }
 
-      const excerpt = $('.card-shell__body h3 + p', card);
-      if (excerpt) excerpt.textContent = s.excerpt || s.dek;
-
-      const kicker = $('.card-shell__price', card);
-      if (kicker) {
-        const icon = kicker.querySelector('i');
-        kicker.textContent = (icon ? icon.outerHTML + ' ' : '') + s.kicker;
-      }
-    });
+  function renderArchive() {
+    const grid = $('[data-archive-grid]');
+    if (!grid) return;
+    grid.innerHTML = DATA.latest().map(archiveCardHtml).join('');
   }
 
   function renderNotFound(slug) {
@@ -426,7 +432,7 @@
     if (!DATA) return;
 
     /* runs on news.html too, where there is no article shell */
-    syncArchiveCards();
+    renderArchive();
 
     if (!$('[data-article-title]')) return;
 

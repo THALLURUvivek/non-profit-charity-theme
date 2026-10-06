@@ -1,6 +1,6 @@
-﻿/* ==========================================================================
-   Hearth Foundation â€” Premium Nonprofit Theme
-   style.css Â· 01 foundations / chrome / hero
+/* ==========================================================================
+   Hearth Foundation — Premium Nonprofit Theme
+   style.css · 01 foundations / chrome / hero
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -1252,7 +1252,7 @@ html.has-custom-cursor * { cursor: none !important; }
   color: var(--ink);
 }
 
-/* Ten-year horizon â€” rings + supporting copy */
+/* Ten-year horizon — rings + supporting copy */
 .horizon-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -2077,7 +2077,7 @@ textarea.form-control {
 
 /* Link-styled buttons, for footer items with no destination yet. Inherits
    the anchor look exactly, so swapping <a> for <button> is not a visual
-   change â€” but it removes the href="#" for crawlers and no-JS visitors. */
+   change — but it removes the href="#" for crawlers and no-JS visitors. */
 .linkish {
   border: 0;
   padding: 0;
@@ -2359,7 +2359,7 @@ textarea.form-control {
 .gift-card__head .total { font-family: var(--font-display); font-size: 1.9rem; color: var(--pine); line-height: 1; }
 .gift-card__head .total small { display: block; font-family: var(--font-sans); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted-2); font-weight: 700; }
 
-/* Confirmation panel â€” replaces the form once a gift is submitted */
+/* Confirmation panel — replaces the form once a gift is submitted */
 .gift-done { text-align: center; }
 .gift-done__mark {
   width: 76px;
@@ -2431,7 +2431,7 @@ textarea.form-control {
 }
 
 /* --------------------------------------------------------------------------
-   24. Responsive â€” desktop / tablet / mobile
+   24. Responsive — desktop / tablet / mobile
    -------------------------------------------------------------------------- */
 
 /* Large desktop */
@@ -3528,7 +3528,7 @@ body.is-dashboard.is-nav-open { overflow: hidden; }
 @media (max-width: 899.98px) {
   .auth-split { grid-template-columns: 1fr; }
   .auth-aside { order: -1; }
-  /* the aside is decoration â€” it should not push the form below the fold on
+  /* the aside is decoration — it should not push the form below the fold on
      a phone, so it collapses to just the heading */
   .auth-aside h2 { font-size: clamp(1.35rem, 1.15rem + 1vw, 1.75rem); }
   .auth-perks, .auth-quote { display: none; }
@@ -4244,7 +4244,7 @@ a[role="button"] { cursor: pointer; }
 /* article responsive */
 @media (max-width: 1199.98px) {
   .article__layout { grid-template-columns: 1fr; }
-  /* read the prose first on narrow screens â€” the aside becomes a footer band */
+  /* read the prose first on narrow screens — the aside becomes a footer band */
   .article-aside { position: static; grid-template-columns: repeat(2, 1fr); }
   .article-aside__cta { grid-column: 1 / -1; }
 }

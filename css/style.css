@@ -2701,6 +2701,9 @@ textarea.form-control {
   color: var(--muted);
 }
 .office-card li i { color: var(--gold-deep); margin-top: .2rem; flex: none; }
+/* reused inside a dashboard panel it must size to its own content, not stretch
+   to the panel's 100% height and spill over the section below */
+.panel .office-card { height: auto; }
 
 /* --------------------------------------------------------------------------
    25. Dashboards (admin + user)
@@ -2926,6 +2929,7 @@ body.is-dashboard.is-nav-open { overflow: hidden; }
   -webkit-backdrop-filter: blur(6px);
 }
 .dash-me__top { display: flex; align-items: center; gap: .75rem; margin-bottom: .8rem; }
+.dash-me__top > span { min-width: 0; }
 .avatar {
   width: 40px; height: 40px;
   border-radius: 14px;
@@ -2938,7 +2942,7 @@ body.is-dashboard.is-nav-open { overflow: hidden; }
   flex: none;
   box-shadow: 0 6px 16px -10px rgba(245, 185, 63, .9);
 }
-.dash-me__name { display: block; color: var(--white); font-size: .85rem; line-height: 1.2; }
+.dash-me__name { display: block; color: var(--white); font-size: .85rem; line-height: 1.2; overflow-wrap: anywhere; }
 .dash-me__title { display: block; font-size: .7rem; color: rgba(255, 255, 255, .5); line-height: 1.3; }
 .dash-me__row { display: flex; align-items: center; gap: .5rem; font-size: .72rem; color: rgba(255, 255, 255, .5); margin: 0; }
 .dash-me__row span { word-break: break-all; }

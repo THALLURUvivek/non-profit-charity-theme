@@ -139,7 +139,8 @@
     /* password reveal */
     $$('[data-pw-toggle]', form).forEach(btn => {
       btn.addEventListener('click', () => {
-        const input = $('#' + btn.dataset.pwToggle, form);
+        const id = btn.getAttribute('data-pw-toggle');
+        const input = (id && document.getElementById(id)) || btn.parentElement.querySelector('input');
         if (!input) return;
         const show = input.type === 'password';
         input.type = show ? 'text' : 'password';
@@ -295,6 +296,12 @@
 
     [email, pw].forEach(f => f && f.addEventListener('input', clearError));
 
+    $$('[data-social]', form.parentNode || document).forEach(btn => {
+      btn.addEventListener('click', () => {
+        window.location.href = '404.html';
+      });
+    });
+
     form.addEventListener('submit', e => {
       e.preventDefault();
       clearError();
@@ -309,8 +316,8 @@
       const mail = (email.value || '').trim();
       const pass = pw.value || '';
 
-      if (!mail) return showError('Enter the email address for this account.');
-      if (pass.length < 4) return showError('Passwords on this demo are at least four characters.');
+      if (!mail) { if (email) email.focus(); return showError('Enter the email address for this account.'); }
+      if (pass.length < 4) { if (pw) pw.focus(); return showError('Passwords on this demo are at least four characters.'); }
 
       if (submit) {
         submit.classList.add('is-loading');
@@ -460,6 +467,7 @@
             '<span class="dash-me__title">' + esc(account.title) + '</span>' +
           '</span>' +
         '</div>' +
+        '<p class="dash-me__row mb-1"><i class="bi bi-envelope"></i> <span>' + esc(account.email) + '</span></p>' +
         '<p class="dash-me__row mb-2"><i class="bi bi-shield-check"></i> Last sign-in ' + esc(account.lastLogin) + '</p>' +
         '<button class="dash-signout" type="button" data-signout>' +
           '<i class="bi bi-box-arrow-right"></i> Sign out</button>';

@@ -52,12 +52,22 @@
 
       <div class="field">
         <label for="authPassword">Password</label>
-        <input class="form-control" type="password" id="authPassword" name="password"
-               autocomplete="current-password" placeholder="••••••••" required>
+        <div style="position:relative;">
+          <input class="form-control has-toggle" type="password" id="authPassword" name="password"
+                 autocomplete="current-password" placeholder="••••••••" required>
+          <button class="pw-toggle" type="button" data-pw-toggle="authPassword" aria-label="Show password">
+            <i class="bi bi-eye"></i>
+          </button>
+        </div>
         <p class="form-hint">Any four characters work. This is a demo — nothing is sent anywhere.</p>
       </div>
 
       <p class="auth-error" data-auth-error role="alert" aria-live="polite"></p>
+
+      <div class="auth-social" style="margin-bottom: 1rem;">
+        <button class="social-btn" type="button" data-social="Google"><i class="bi bi-google"></i> Google</button>
+        <button class="social-btn" type="button" data-social="Apple"><i class="bi bi-apple"></i> Apple</button>
+      </div>
 
       <button class="btn btn--block" type="submit" data-auth-submit>
         <span class="btn__label"><i class="bi bi-box-arrow-in-right"></i> Continue</span>

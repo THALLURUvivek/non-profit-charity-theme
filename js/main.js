@@ -1146,6 +1146,18 @@
       el.textContent = bad ? '/' + bad : 'an unknown path';
     }
 
+    /* Back to the page they came from, falling back to home when there is
+       no history to return to (direct hits, new tabs, bookmarks). */
+    $$('[data-err-back]', page).forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (window.history.length > 1 && document.referrer) {
+          window.history.back();
+        } else {
+          window.location.href = 'index.html';
+        }
+      });
+    });
+
     /* Copy-the-broken-link, so reporting it takes one click */
     $$('[data-err-copy]', page).forEach(btn => {
       btn.addEventListener('click', () => {

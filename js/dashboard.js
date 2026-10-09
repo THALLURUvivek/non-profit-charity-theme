@@ -231,7 +231,7 @@
       if (submit) { submit.classList.add('is-loading'); submit.disabled = true; }
 
       setTimeout(() => {
-        session.write({ key: key, role: 'user', name: DATA.accounts[key].name, at: Date.now() });
+        session.write({ key: key, role: 'user', name: DATA.accounts[key].name, email: DATA.accounts[key].email, at: Date.now() });
         location.href = 'user.html';
       }, 700);
     });
@@ -325,7 +325,7 @@
       }
 
       setTimeout(() => {
-        session.write({ key: key, role: account.role, name: account.name, at: Date.now() });
+        session.write({ key: key, role: account.role, name: account.name, email: mail, at: Date.now() });
         location.href = dashFor(account.role);
       }, 600);
     });
@@ -346,7 +346,9 @@
       location.replace('login.html');
       return null;
     }
-    return DATA.accounts[s.key];
+    const account = DATA.accounts[s.key];
+    /* prefer the email actually typed at sign-in over the demo account's */
+    return s.email ? Object.assign({}, account, { email: s.email }) : account;
   }
 
   function wireSignOut() {
@@ -463,11 +465,10 @@
         '<div class="dash-me__top">' +
           '<span class="avatar">' + esc(account.initials) + '</span>' +
           '<span>' +
-            '<b class="dash-me__name">' + esc(account.name) + '</b>' +
+            '<b class="dash-me__name">' + esc(account.email) + '</b>' +
             '<span class="dash-me__title">' + esc(account.title) + '</span>' +
           '</span>' +
         '</div>' +
-        '<p class="dash-me__row mb-1"><i class="bi bi-envelope"></i> <span>' + esc(account.email) + '</span></p>' +
         '<p class="dash-me__row mb-2"><i class="bi bi-shield-check"></i> Last sign-in ' + esc(account.lastLogin) + '</p>' +
         '<button class="dash-signout" type="button" data-signout>' +
           '<i class="bi bi-box-arrow-right"></i> Sign out</button>';
@@ -484,7 +485,7 @@
     if (email) email.textContent = account.email;
 
     const first = $('[data-me-first]');
-    if (first) first.textContent = account.name.split(' ')[0];
+    if (first) first.textContent = account.email;
 
     wireSignOut();
     wireSidebar();
@@ -906,7 +907,7 @@
       const T = U.tax;
       taxHost.innerHTML =
         '<div class="table-wrap"><table class="dash-table"><tbody>' +
-          '<tr><td>Legal name</td><td class="num">' + esc(account.name) + '</td></tr>' +
+          '<tr><td>Legal name</td><td class="num">' + esc(account.email) + '</td></tr>' +
           '<tr><td>Tax year</td><td class="num">2026</td></tr>' +
           '<tr><td>Gift deductible</td><td class="num">' + (T.deductible ? 'Yes — 501(c)(3)' : 'No') + '</td></tr>' +
           '<tr><td>EIN</td><td class="num"><code>' + esc(T.ein) + '</code></td></tr>' +

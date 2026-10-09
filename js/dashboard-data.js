@@ -20,7 +20,6 @@
       name: 'Marcus Bell',
       initials: 'MB',
       title: 'Director of Operations',
-      email: 'marcus.bell@hearthfoundation.org',
       lastLogin: '30 Sep 2026, 08:12 PT',
       mfaEnabled: true
     },
